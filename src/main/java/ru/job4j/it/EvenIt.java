@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class EvenIt implements Iterator<Integer> {
-    int[] numbers;
-    int pointer = 0;
+    private final int[] numbers;
+    private int pointer = 0;
 
     public EvenIt(int[] numbers) {
         this.numbers = numbers;
