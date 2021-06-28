@@ -1,9 +1,13 @@
 package ru.job4j.generics;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SimpleArray<T> implements Iterable<T> {
+
+
     private T[] container;
     private int pointer = 0;
     private int size = 0;
@@ -35,11 +39,9 @@ public class SimpleArray<T> implements Iterable<T> {
         container[pointer] = null;
     }
 
-    public void printArray(SimpleArray<T> arr) {
-        for (T e : arr.container) {
-            System.out.println(e);
-        }
-        System.out.println("--");
+    @Override
+    public String toString() {
+        return Arrays.toString(container);
     }
 
     @Override
@@ -57,6 +59,9 @@ public class SimpleArray<T> implements Iterable<T> {
 
         @Override
         public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             return container[index++];
         }
     }
@@ -67,13 +72,13 @@ public class SimpleArray<T> implements Iterable<T> {
         myArray.add(6);
         myArray.add(7);
         //myArray.set(3, 8);
-        myArray.printArray(myArray);
+        System.out.println(myArray);
         myArray.remove(1);
-        myArray.printArray(myArray);
+        System.out.println(myArray);
         myArray.add(6);
-        myArray.printArray(myArray);
+        System.out.println(myArray);
         myArray.remove(0);
-        myArray.printArray(myArray);
+        System.out.println(myArray);
         System.out.println("get - " + myArray.get(1));
         //myArray.remove(2);
         Iterator<Integer> iter = myArray.iterator();
