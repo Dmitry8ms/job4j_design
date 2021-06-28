@@ -39,6 +39,7 @@ public class SimpleArray<T> implements Iterable<T> {
         for (T e : arr.container) {
             System.out.println(e);
         }
+        System.out.println("--");
     }
 
     @Override
@@ -65,20 +66,16 @@ public class SimpleArray<T> implements Iterable<T> {
         myArray.add(5);
         myArray.add(6);
         myArray.add(7);
+        //myArray.set(3, 8);
         myArray.printArray(myArray);
-        System.out.println();
         myArray.remove(1);
         myArray.printArray(myArray);
         myArray.add(6);
-        System.out.println();
         myArray.printArray(myArray);
-        System.out.println();
         myArray.remove(0);
         myArray.printArray(myArray);
-        System.out.println();
-        System.out.println(myArray.get(1));
+        System.out.println("get - " + myArray.get(1));
         //myArray.remove(2);
-        System.out.println();
         Iterator<Integer> iter = myArray.iterator();
         while (iter.hasNext()) {
             System.out.println(iter.next());
