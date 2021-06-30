@@ -1,9 +1,6 @@
 package ru.job4j.generics;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class SimpleArray<T> implements Iterable<T> {
 
@@ -11,15 +8,33 @@ public class SimpleArray<T> implements Iterable<T> {
     private T[] container;
     private int pointer = 0;
     private int size = 0;
+    private int modCount = 0;
 
     public SimpleArray(int size) {
         container = (T[]) new Object[size];
         this.size = size;
     }
 
+    public SimpleArray() {
+        this.size = 10;
+        container = (T[]) new Object[size];
+    }
+
     public void add(T model) {
+        if (pointer == size) {
+            size *= 2;
+            //System.out.println("size doubled");
+            T[] newContainer = (T[]) new Object[size];
+            System.arraycopy(container, 0, newContainer, 0, container.length);
+            container = newContainer;
+        }
         container[Objects.checkIndex(pointer, size)] = model;
         pointer++;
+        modCount++;
+    }
+
+    public int capacity() {
+        return size;
     }
 
     public T get(int index) {
@@ -36,6 +51,7 @@ public class SimpleArray<T> implements Iterable<T> {
             System.arraycopy(container, index + 1, container, index, container.length - index - 1);
         }
         pointer--;
+        modCount++;
         container[pointer] = null;
     }
 
@@ -51,6 +67,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
     private class SimpleArrayIter implements Iterator<T> {
         int index = 0;
+        int expectedModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -59,6 +76,9 @@ public class SimpleArray<T> implements Iterable<T> {
 
         @Override
         public T next() {
+            if (expectedModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -69,7 +89,9 @@ public class SimpleArray<T> implements Iterable<T> {
     public static void main(String[] args) {
         SimpleArray<Integer> myArray = new SimpleArray<>(3);
         myArray.add(5);
+        System.out.println(myArray);
         myArray.add(6);
+        System.out.println(myArray);
         myArray.add(7);
         //myArray.set(3, 8);
         System.out.println(myArray);
@@ -85,6 +107,10 @@ public class SimpleArray<T> implements Iterable<T> {
         while (iter.hasNext()) {
             System.out.println(iter.next());
         }
+        myArray.add(5);
+        System.out.println(myArray);
+        myArray.add(8);
+        System.out.println(myArray);
     }
 
 
