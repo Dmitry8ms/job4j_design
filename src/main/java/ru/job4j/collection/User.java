@@ -34,7 +34,15 @@ public class User {
         Map<User, Object> users = new HashMap<>();
         var user1 = new User("Ivan", 3, new GregorianCalendar(1939, Calendar.APRIL, 25));
         var user2 = new User("Ivan", 3, new GregorianCalendar(1939, Calendar.APRIL, 25));
-        System.out.println("user1 hash-code - " + user1.hashCode());
+        int hashCode = user1.hashCode();
+        System.out.println("user1 hash-code - " + hashCode + " - " + Integer.toBinaryString(hashCode));
+        int shift = hashCode >>> 16;
+        int hash = shift ^ hashCode;
+        int index = hash & 15;
+        System.out.println("after bits shift - " + shift + " - " + Integer.toBinaryString(shift));
+        System.out.println("after XOR - " + hash + " - " + Integer.toBinaryString(hash));
+        System.out.println("15 in binary - " + Integer.toBinaryString(15));
+        System.out.println("after & with 15 - " + index + " - " + Integer.toBinaryString(index));
         System.out.println("user2 hash-code - " + user2.hashCode());
         System.out.println("user1 equals user2 - " + user1.equals(user2));
         users.put(user1, new Object());
