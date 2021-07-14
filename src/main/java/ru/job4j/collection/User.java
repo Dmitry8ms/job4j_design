@@ -48,5 +48,9 @@ public class User {
         users.put(user1, new Object());
         users.put(user2, new Object());
         System.out.println(users);
+        int hashCode1 = Float.hashCode(2.1f);
+        int hashCode2 = Float.hashCode(2.15f);
+        System.out.println(hashCode1 % 16);
+        System.out.println(hashCode2 % 16);
     }
 }

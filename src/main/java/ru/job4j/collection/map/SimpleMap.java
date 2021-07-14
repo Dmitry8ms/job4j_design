@@ -60,7 +60,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         }
         int hash = hash(key.hashCode());
         int index = indexFor(hash);
-        if (table[index] == null) {
+        if (table[index] == null || !table[index].key.equals(key)) {
             return null;
         }
         return table[index].value;
@@ -73,7 +73,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         }
         int hash = hash(key.hashCode());
         int index = indexFor(hash);
-        if (table[index] == null) {
+        if (table[index] == null || !table[index].key.equals(key)) {
             return false;
         }
         table[index] = null;
