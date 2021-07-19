@@ -46,4 +46,11 @@ public class TreeTest {
         Tree<Integer> tree = new SimpleTree<>(1);
         assertFalse(tree.add(2, 2));
     }
+
+    @Test
+    public void whenDuplicateInDifParentAddFalse() {
+        Tree<Integer> tree = new SimpleTree<>(1);
+        tree.add(1, 2);
+        assertFalse(tree.add(2, 2));
+    }
 }
