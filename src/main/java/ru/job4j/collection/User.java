@@ -52,5 +52,28 @@ public class User {
         int hashCode2 = Float.hashCode(2.15f);
         System.out.println(hashCode1 % 16);
         System.out.println(hashCode2 % 16);
+        Queue<String> queue = new LinkedList<>();
+        queue.offer("first");
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        Queue<String> queueP = new PriorityQueue<>();
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.addElement(2);
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.empty());
+        Deque<Integer> stackNew = new ArrayDeque<>();
+        stackNew.offer(1);
+        stackNew.offer(2);
+        System.out.println(stackNew.pollLast());
+        System.out.println(stackNew.pollLast());
+        Deque<Integer> stack2 = new LinkedList<>();
+        stack2.push(1);
+        stack2.push(2);
+        System.out.println(stack2.pop());
+        System.out.println(stack2.pop());
+        Map<Integer, String> map = new TreeMap();
+        Set<String> set = new TreeSet<>();
     }
 }

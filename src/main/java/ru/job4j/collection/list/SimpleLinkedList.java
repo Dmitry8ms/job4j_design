@@ -101,5 +101,8 @@ public class SimpleLinkedList<E> implements List<E> {
         while (iter.hasNext()) {
             System.out.println(iter.next());
         }
+        System.out.println(Integer.valueOf(5).hashCode());
+        Object obj = 5;
+        System.out.println(obj.hashCode());
     }
 }
