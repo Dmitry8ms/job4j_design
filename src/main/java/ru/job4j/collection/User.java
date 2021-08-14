@@ -66,6 +66,8 @@ public class User {
         Deque<Integer> stackNew = new ArrayDeque<>();
         stackNew.offer(1);
         stackNew.offer(2);
+        Iterator<Integer> it = stackNew.iterator();
+        it.next();
         System.out.println(stackNew.pollLast());
         System.out.println(stackNew.pollLast());
         Deque<Integer> stack2 = new LinkedList<>();
