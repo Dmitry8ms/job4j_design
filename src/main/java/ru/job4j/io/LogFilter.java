@@ -1,9 +1,10 @@
 package ru.job4j.io;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+
+//Метод filter должен прочитать файл и вернуть строки, где предпоследнее число - это 404.
 
 public class LogFilter {
     public static List<String> filter(String file) {
@@ -39,8 +40,22 @@ public class LogFilter {
         return true;
     }
 
+    public static void save(List<String> log, String file) {
+        try (PrintWriter out = new PrintWriter(
+                new BufferedOutputStream(
+                        new FileOutputStream(file)
+                ))) {
+            for (String line : log) {
+                out.println(line);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         List<String> log = filter("log.txt");
-        System.out.println(log);
+        save(log, "404.txt");
     }
 }
