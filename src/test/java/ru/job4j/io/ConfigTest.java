@@ -28,12 +28,12 @@ public class ConfigTest {
         assertThat(config.value("surname"), is(Matchers.nullValue()));
     }
 
-    /*@Test(expected = IllegalArgumentException.class)
-    public void whenWrongCodePattern() throws Exception {
+    @Test(expected = IllegalArgumentException.class)
+    public void whenWrongCodePattern() {
         String path = "./data/wrong.properties";
         Config config = new Config(path);
         config.load();
-    }*/
+    }
 
 
 }
