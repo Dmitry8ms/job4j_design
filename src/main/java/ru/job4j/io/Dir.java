@@ -11,7 +11,7 @@ public class Dir {
         if (!file.isDirectory()) {
             throw new IllegalArgumentException(String.format("Not directory %s", file.getAbsoluteFile()));
         }
-        System.out.println(String.format("size : %s", file.getTotalSpace()));
+        System.out.printf("size : %s%n", file.getTotalSpace());
         for (File subfile : file.listFiles()) {
             if (subfile.isFile()) {
                 System.out.printf("file: %s size: %s%n", subfile.getName(), subfile.length());
