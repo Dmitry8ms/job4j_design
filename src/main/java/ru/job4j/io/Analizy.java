@@ -11,8 +11,10 @@ public class Analizy {
     public void unavailable(String source, String target) {
         String downTimeBegin = null;
         String downTimeEnd;
-        try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
-            for (String lineFromLog : readFile(source)) {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream(target));
+             BufferedReader in = new BufferedReader(new FileReader(source))) {
+            String lineFromLog;
+            while ((lineFromLog = in.readLine()) != null) {
                 if (lineFromLog.startsWith("400 ") || lineFromLog.startsWith("500 ")) {
                     if (downTimeBegin == null) {
                         downTimeBegin = lineFromLog.substring(4);
