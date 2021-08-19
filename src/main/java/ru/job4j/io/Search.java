@@ -9,8 +9,17 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        search(start, p -> p.toFile().getName().endsWith("txt"))
+        if (args.length < 2) {
+            throw new IllegalArgumentException(
+                    "Root folder or file extension is null. Usage java -jar search.jar ROOT_FOLDER EXTENSION.");
+        }
+        Path start = Paths.get(args[0]);
+        if (!Files.exists(start)) {
+            throw new IllegalArgumentException(
+                    "Specified root folder does not exist. Please, specify an existing folder");
+        }
+        String ext = args[1];
+        search(start, p -> p.toFile().getName().endsWith(ext))
                 .forEach(System.out::println);
     }
 
