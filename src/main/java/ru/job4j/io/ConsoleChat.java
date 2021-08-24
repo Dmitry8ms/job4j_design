@@ -32,14 +32,14 @@ public class ConsoleChat {
             String startStop = CONTINUE;
             String botAnswer;
             phraseFromConsole = console.readLine();
-            while (!phraseFromConsole.equals(OUT)) {
+            while (!OUT.equals(phraseFromConsole)) {
                 log.add(phraseFromConsole);
-                if (phraseFromConsole.equals(STOP)) {
+                if (STOP.equals(phraseFromConsole)) {
                     startStop = STOP;
-                } else if (phraseFromConsole.equals(CONTINUE)) {
+                } else if (CONTINUE.equals(phraseFromConsole)) {
                     startStop = CONTINUE;
                 }
-                if (startStop.equals(CONTINUE)) {
+                if (CONTINUE.equals(startStop)) {
                     botAnswer = botAnswers.get((int) (Math.random() * botAnswers.size()));
                     System.out.println(botAnswer);
                     log.add(botAnswer);
