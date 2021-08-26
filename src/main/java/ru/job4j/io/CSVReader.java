@@ -9,7 +9,7 @@ public class CSVReader {
     private final String delimiter;
     private final String toOut;
     private final Set<String> cols;
-    private PrintStream output;
+    private PrintStream output = System.out;
     private boolean validate = false;
 
     public CSVReader(String pathToTable, String delimiter, String toOut, String[] cols) {
@@ -26,8 +26,6 @@ public class CSVReader {
             try {
                 if (!toOut.equals("stdout")) {
                     output = new PrintStream(toOut);
-                } else {
-                    output = System.out;
                 }
                 outputFiltered(stringsToWrite, output);
             } catch (FileNotFoundException e) {
