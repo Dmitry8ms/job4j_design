@@ -10,6 +10,7 @@ public class CSVReader {
     private final String toOut;
     private final Set<String> cols;
     private PrintStream output;
+    private boolean validate = false;
 
     public CSVReader(String pathToTable, String delimiter, String toOut, String[] cols) {
         this.pathToTable = new File(pathToTable);
@@ -18,21 +19,41 @@ public class CSVReader {
         this.cols = Set.of(cols);
     }
     public void readAndOutput() {
-        if (!pathToTable.exists()) {
-            throw new IllegalArgumentException(String.format("File %s do not exist", pathToTable.getAbsoluteFile()));
-        }
-        List<Integer> columns = getColNumbers(cols);
-        List<String> stringsToWrite = readTable(columns);
-        try {
-            if (!toOut.equals("stdout")) {
-                output = new PrintStream(toOut);
-            } else {
-                output = System.out;
+        validate = validate();
+        if (validate) {
+            List<Integer> columns = getColNumbers(cols);
+            List<String> stringsToWrite = readTable(columns);
+            try {
+                if (!toOut.equals("stdout")) {
+                    output = new PrintStream(toOut);
+                } else {
+                    output = System.out;
+                }
+                outputFiltered(stringsToWrite, output);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-            outputFiltered(stringsToWrite, output);
-        } catch (FileNotFoundException e) {
+        }
+    }
+
+    private boolean validate() {
+        if (!pathToTable.exists()) {
+            throw new IllegalArgumentException(String.format("File %s does not exist", pathToTable.getAbsoluteFile()));
+        }
+        Set<String> header = new HashSet<>();
+        try (Scanner table = new Scanner(pathToTable, StandardCharsets.UTF_8)) {
+            if (table.hasNextLine()) {
+                header = Set.of(table.nextLine().split(delimiter));
+            }
+            for (String col : cols) {
+                if (!header.contains(col)) {
+                    throw new IllegalArgumentException(String.format("%s column does not exist", col));
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     private void outputFiltered(List<String> stringsToWrite, PrintStream output) {
@@ -75,10 +96,6 @@ public class CSVReader {
                     if (cols.contains(head)) {
                         result.add(i);
                     }
-                }
-
-                if (result.isEmpty()) {
-                    throw new IllegalArgumentException("Wrong column name provided");
                 }
             }
 
