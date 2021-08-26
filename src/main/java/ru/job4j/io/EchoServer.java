@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.function.Supplier;
 
 public class EchoServer {
@@ -78,7 +79,9 @@ public class EchoServer {
                         lines.append(str).append(System.lineSeparator());
                     }
                     System.out.println(lines);
-                    message = lines.substring(lines.indexOf("msg=") + 4, lines.indexOf("HTTP")).trim();
+                    Scanner readLine = new Scanner(lines.toString());
+                    String line = readLine.nextLine();
+                    message = line.substring(line.indexOf("msg=") + 4, line.indexOf("HTTP")).trim();
                     if (!STOP.equals(message) && !HELLO.equals(message)) {
                         msg = message;
                         message = ANY;
