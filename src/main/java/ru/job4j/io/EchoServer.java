@@ -1,5 +1,8 @@
 package ru.job4j.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +24,7 @@ public class EchoServer {
     private static OutputStream out;
     private static Socket socket;
     private static ServerSocket server;
+    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public Supplier<Boolean> stop() {
         return () -> {
@@ -28,7 +32,7 @@ public class EchoServer {
                 out.write("Bye\n\n".getBytes(StandardCharsets.UTF_8));
                 server.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Exception in server communication: ", e);
             }
 
             return true;
@@ -40,7 +44,7 @@ public class EchoServer {
             try {
                 out.write("Hello, dear friend!\n\n".getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Exception in server communication: ", e);
             }
 
             return true;
@@ -53,13 +57,13 @@ public class EchoServer {
                 out.write(("You wrote " + msg + "\n\n").getBytes(StandardCharsets.UTF_8));
                 out.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Exception in server communication: ", e);
             }
 
             return true;
         };
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         dispatch.put(STOP, new EchoServer().stop());
         dispatch.put(HELLO, new EchoServer().hello());
         dispatch.put(ANY, new EchoServer().any());
@@ -91,12 +95,12 @@ public class EchoServer {
                     in.close();
                     out.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOG.error("Exception in client-server communication: ", e);
                 }
             }
             socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Exception on server side: ", e);
         }
     }
 }
