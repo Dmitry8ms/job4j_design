@@ -30,7 +30,9 @@ public class EchoServer {
         return () -> {
             try {
                 out.write("Bye\n\n".getBytes(StandardCharsets.UTF_8));
+                out.close();
                 server.close();
+                System.out.println("server closed");
             } catch (IOException e) {
                 LOG.error("Exception in server communication: ", e);
             }
@@ -42,7 +44,8 @@ public class EchoServer {
     public Supplier<Boolean> hello() {
         return () -> {
             try {
-                out.write("Hello, dear friend!\n\n".getBytes(StandardCharsets.UTF_8));
+                out.write("<h1>Hello, dear friend!<h1>\n\n".getBytes(StandardCharsets.UTF_8));
+                out.close();
             } catch (IOException e) {
                 LOG.error("Exception in server communication: ", e);
             }
@@ -55,7 +58,7 @@ public class EchoServer {
         return () -> {
             try {
                 out.write(("You wrote " + msg + "\n\n").getBytes(StandardCharsets.UTF_8));
-                out.flush();
+                out.close();
             } catch (IOException e) {
                 LOG.error("Exception in server communication: ", e);
             }
@@ -70,30 +73,31 @@ public class EchoServer {
         try {
             server = new ServerSocket(9000);
             while (!server.isClosed()) {
-                StringBuilder lines = new StringBuilder();
                 String message;
                 socket = server.accept();
                 try {
                      out = socket.getOutputStream();
-                     BufferedReader in = new BufferedReader(
-                             new InputStreamReader(socket.getInputStream()));
-                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                    for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
-                        //System.out.println(str);
-                        lines.append(str).append(System.lineSeparator());
+                     Scanner readLine = new Scanner(socket.getInputStream());
+                     //BufferedReader in = new BufferedReader(new InputStreamReader());
+                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+//                    for (String str = in.readLine(); str != null && !str.isEmpty(); str = in.readLine()) {
+//                        lines.append(str).append(System.lineSeparator());
+//                    }
+                    int count = 0;
+                    while (readLine.hasNextLine()) {
+                        count++;
+                        String line = readLine.nextLine();
+                        if (count == 1) {
+                            message = line.substring(line.indexOf("msg=") + 4, line.indexOf("HTTP")).trim();
+                            if (!STOP.equals(message) && !HELLO.equals(message)) {
+                                msg = message;
+                                message = ANY;
+                            }
+                            dispatch.get(message).get();
+                        }
+                        System.out.println(line);
                     }
-                    System.out.println(lines);
-                    Scanner readLine = new Scanner(lines.toString());
-                    String line = readLine.nextLine();
-                    message = line.substring(line.indexOf("msg=") + 4, line.indexOf("HTTP")).trim();
-                    if (!STOP.equals(message) && !HELLO.equals(message)) {
-                        msg = message;
-                        message = ANY;
-                    }
-                    dispatch.get(message).get();
-                    out.flush();
-                    in.close();
-                    out.close();
+                    readLine.close();
                 } catch (IOException e) {
                     LOG.error("Exception in client-server communication: ", e);
                 }
