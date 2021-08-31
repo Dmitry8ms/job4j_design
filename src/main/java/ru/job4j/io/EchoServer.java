@@ -22,7 +22,6 @@ public class EchoServer {
     private static String msg;
     private static OutputStream out;
     private static ServerSocket server;
-    //private static Socket socket;
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public Supplier<Boolean> stop() {
@@ -69,10 +68,10 @@ public class EchoServer {
         DISPATCH.put(STOP, new EchoServer().stop());
         DISPATCH.put(HELLO, new EchoServer().hello());
         DISPATCH.put(ANY, new EchoServer().any());
-        deployServer();
+        new EchoServer().deployServer();
     }
 
-    private static void deployServer() {
+    private void deployServer() {
         try {
             server = new ServerSocket(9000);
             while (!server.isClosed()) {
@@ -92,7 +91,7 @@ public class EchoServer {
         }
     }
 
-    private static String getClientMsg(Socket socket) throws IOException {
+    private String getClientMsg(Socket socket) throws IOException {
         BufferedReader readLine = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
         int lineN = 0;
