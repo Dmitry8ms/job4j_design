@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<vw model="Touareg" color="Moon Light" stolen="false">
+    <owner name="Ivan Ivanov" age="40" license="77AUM676"/>
+    <options>
+        <option>busyness interior</option>
+        <option>glass roof</option>
+        <option>sport engine</option>
+    </options>
+</vw>
