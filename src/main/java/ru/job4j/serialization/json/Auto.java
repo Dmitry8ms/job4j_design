@@ -8,11 +8,13 @@ import java.nio.file.Files;
 import java.util.Arrays;
 
 public class Auto {
-    private final String model;
-    private final String color;
-    private final Owner owner;
-    private final boolean stolen;
-    private final String[] options;
+    private String model;
+    private String color;
+    private Owner owner;
+    private boolean stolen;
+    private String[] options;
+
+    public Auto() {    }
 
     public Auto(String model, String color, Owner owner, boolean stolen, String... options) {
         this.model = model;
