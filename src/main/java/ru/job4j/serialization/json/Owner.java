@@ -5,6 +5,18 @@ public class Owner {
     private final int age;
     private final String license;
 
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
     public Owner(String name, int age, String license) {
         this.name = name;
         this.age = age;
