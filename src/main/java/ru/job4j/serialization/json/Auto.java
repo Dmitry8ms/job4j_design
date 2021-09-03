@@ -67,15 +67,22 @@ public class Auto {
         System.out.println("JSON format: " + vwString);
         System.out.println("Auto object: " + vw);
         File tempFile = Files.createTempFile(null, null).toFile();
-        PrintWriter toFile = new PrintWriter(tempFile);
-        toFile.println(vwString);
-        toFile.close();
-        BufferedReader fromFile = new BufferedReader(new InputStreamReader(new FileInputStream(tempFile)));
-        String vwFromFile = fromFile.readLine();
-        fromFile.close();
-        System.out.println("JSON format from file: " + vwFromFile);
-        Auto vw2 = gson.fromJson(vwFromFile, Auto.class);
-        System.out.println("Auto object from file: " + vw2);
+        try (PrintWriter toFile = new PrintWriter(tempFile)) {
+            toFile.println(vwString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try (BufferedReader fromFile = new BufferedReader(
+                                            new InputStreamReader(
+                                                new FileInputStream(tempFile)))) {
+
+            String vwFromFile = fromFile.readLine();
+            System.out.println("JSON format from file: " + vwFromFile);
+            Auto vw2 = gson.fromJson(vwFromFile, Auto.class);
+            System.out.println("Auto object from file: " + vw2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         /* JSONObject из json-строки строки */
         JSONObject jsonOwner = new JSONObject("{\"name\":\"Ivan Ivanov\",\"age\":40,\"license\":\"77AUM676\"}");
@@ -83,9 +90,10 @@ public class Auto {
 
         /* JSONArray из ArrayList */
         List<String> optionsList = new ArrayList<>();
-        optionsList.add("busyness interior");
+        optionsList.addAll(List.of("busyness interior", "glass roof", "sport engine"));
+        /*optionsList.add("busyness interior");
         optionsList.add("glass roof");
-        optionsList.add("sport engine");
+        optionsList.add("sport engine");*/
         JSONArray jsonOptions = new JSONArray(optionsList);
         System.out.println("JSONArray: " + jsonOptions);
         System.out.println("JSONArray works as List: " + jsonOptions.get(0));
