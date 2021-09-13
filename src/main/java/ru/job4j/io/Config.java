@@ -1,8 +1,6 @@
 package ru.job4j.io;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -11,11 +9,18 @@ public class Config {
 
     private final String path;
     private final Map<String, String> values = new HashMap<>();
-
+    public static void foo() {
+        //field = "test";
+        System.out.println("in foo - " + FIELD);
+    }
+    static {
+        System.out.println("Static block initialized");
+        foo();
+    }
     public Config(final String path) {
         this.path = path;
     }
-
+    public static final String FIELD = "changed";
     public void load() {
         String line;
         String[] keyValue;
@@ -53,10 +58,13 @@ public class Config {
     }
 
     public static void main(String[] args) {
+        System.out.println("in main - " + FIELD);
         Config config = new Config("app.properties");
         System.out.println(config);
         System.out.println();
         config.load();
+        System.out.format("Привет - %s! Как дела %s?", "Саша", "на работе")
+                    .format("%nПривет, %s, хорошо!%n", "Дима");
     }
 
 }
