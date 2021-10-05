@@ -1,10 +1,11 @@
 package ru.job4j.io;
 
 import java.io.FileInputStream;
+import java.io.FileReader;
 
 public class ReadFile {
     public static void main(String[] args) {
-        try (FileInputStream in = new FileInputStream("input.txt")) {
+        try (FileReader in = new FileReader("input.txt")) {
             StringBuilder text = new StringBuilder();
             int read;
             while ((read = in.read()) != -1) {
