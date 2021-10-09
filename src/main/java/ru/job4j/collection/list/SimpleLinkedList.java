@@ -96,7 +96,6 @@ public class SimpleLinkedList<E> implements List<E> {
         myArray.add(7);
         System.out.println(myArray);
         System.out.println("get - " + myArray.get(2));
-        //myArray.remove(2);
         Iterator<Integer> iter = myArray.iterator();
         while (iter.hasNext()) {
             System.out.println(iter.next());

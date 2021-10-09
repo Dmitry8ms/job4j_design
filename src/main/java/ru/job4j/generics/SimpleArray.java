@@ -23,7 +23,6 @@ public class SimpleArray<T> implements Iterable<T> {
     public void add(T model) {
         if (pointer == size) {
             size *= 2;
-            //System.out.println("size doubled");
             T[] newContainer = (T[]) new Object[size];
             System.arraycopy(container, 0, newContainer, 0, container.length);
             container = newContainer;
@@ -93,7 +92,6 @@ public class SimpleArray<T> implements Iterable<T> {
         myArray.add(6);
         System.out.println(myArray);
         myArray.add(7);
-        //myArray.set(3, 8);
         System.out.println(myArray);
         myArray.remove(1);
         System.out.println(myArray);
@@ -102,7 +100,6 @@ public class SimpleArray<T> implements Iterable<T> {
         myArray.remove(0);
         System.out.println(myArray);
         System.out.println("get - " + myArray.get(1));
-        //myArray.remove(2);
         Iterator<Integer> iter = myArray.iterator();
         while (iter.hasNext()) {
             System.out.println(iter.next());

@@ -15,7 +15,6 @@ public class Zip {
             for (Path source : sources) {
                 zipOut.putNextEntry(new ZipEntry(source.toString()));
                 try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(source.toString()))) {
-                    //System.out.println("zipping " + source);
                     zipOut.write(in.readAllBytes());
                 }
             }

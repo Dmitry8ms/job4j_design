@@ -1,6 +1,6 @@
 package ru.job4j.collection;
 
-/* Реализовать метод проверки корректности открытых и закрытых скобок.
+/** Реализовать метод проверки корректности открытых и закрытых скобок.
 
 Например, ()(()((()))) - true, ()) - false */
 
@@ -10,7 +10,6 @@ import java.util.List;
 
 public class Parentheses {
     public static boolean valid(char[] data) {
-        //List<Character> prs = new ArrayList<>();
         int flag = 0;
         for (char ch : data) {
             if (ch == '(') {

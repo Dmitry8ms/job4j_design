@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
-//Метод filter должен прочитать файл и вернуть строки, где предпоследнее число - это 404.
+/**Метод filter должен прочитать файл и вернуть строки, где предпоследнее число - это 404.*/
 
 public class LogFilter {
     public static List<String> filter(String file) {

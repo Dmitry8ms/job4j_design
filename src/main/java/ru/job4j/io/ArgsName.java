@@ -25,7 +25,6 @@ public class ArgsName {
                 String key = keyValue[0].substring(1);
                 String value = keyValue[1];
                 values.put(key, value);
-                //System.out.printf("Loaded key = %s - loaded value = %s%n", key, value);
         }
     }
 
