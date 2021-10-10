@@ -15,8 +15,7 @@ public class SearchVisitor extends SimpleFileVisitor<Path> {
         this.matcher = searchFile.getMatcher(howFind);
     }
     @Override
-    public FileVisitResult visitFileFailed(Path file, IOException e)
-            throws IOException {
+    public FileVisitResult visitFileFailed(Path file, IOException e) {
         System.err.printf("Visiting failed for %s\n", file);
         return FileVisitResult.SKIP_SUBTREE;
     }

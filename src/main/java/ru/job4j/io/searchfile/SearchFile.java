@@ -44,12 +44,15 @@ public class SearchFile {
     }
 
     private void checkArgs(GetArgs argsFromMain) {
+        if (!argsFromMain.containsArgs("d", "n", "t", "o")) {
+            throw new IllegalArgumentException("Wrong arguments number. Use all -d -n -t -o keys in the utility");
+        }
         String d = argsFromMain.get("d");
         String n = argsFromMain.get("n");
         String t = argsFromMain.get("t");
         String o = argsFromMain.get("o");
-        if (!Files.exists(Path.of(d))) {
-            throw new IllegalArgumentException("Wrong directory. Please identify existing directory.");
+        if (!Files.exists(Path.of(d)) || !Files.isDirectory(Path.of(d))) {
+            throw new IllegalArgumentException("Wrong directory name. Please identify existing directory.");
         }
         if (n.equals("") || t.equals("") || o.equals("")) {
                     throw new IllegalArgumentException("Empty argument value. "
