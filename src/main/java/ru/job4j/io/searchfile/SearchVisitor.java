@@ -14,11 +14,13 @@ public class SearchVisitor extends SimpleFileVisitor<Path> {
         String howFind = searchFile.getTValue();
         this.matcher = searchFile.getMatcher(howFind);
     }
+
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException e) {
         System.err.printf("Visiting failed for %s\n", file);
         return FileVisitResult.SKIP_SUBTREE;
     }
+
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         System.out.println("Visiting file: " + file);

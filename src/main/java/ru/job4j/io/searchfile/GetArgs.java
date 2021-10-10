@@ -30,6 +30,7 @@ public class GetArgs {
                 values.put(key, value);
         }
     }
+
     boolean containsArgs(String... args) {
         for (String arg : args) {
             if (!values.containsKey(arg)) {
@@ -38,6 +39,7 @@ public class GetArgs {
         }
         return true;
     }
+
     public static GetArgs of(String[] args) {
         GetArgs names = new GetArgs();
         names.parse(args);
