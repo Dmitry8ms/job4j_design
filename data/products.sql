@@ -51,16 +51,16 @@ where expired_date < current_date;
 select name Продукт, price Цена_макс from product
 where price = (select max(price) from product);
 
-select t.name, count(p.name) from product p 
+select t.name, count(*) from product p 
 join type t
 on p.id_type = t.id
 group by t.name;
 
-select t.name, count(p.name) from product p 
+select p.name Продукт, t.name Тип, count(p.name) шт from product p 
 join type t
 on p.id_type = t.id
-group by t.name
-having t.name in ('Молоко', 'Сыр');
+where t.name in ('Молоко', 'Сыр')
+group by p.name, t.name;
 
 select t.name, count(p.name) from product p 
 join type t
