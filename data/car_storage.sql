@@ -1,12 +1,14 @@
 create database cars;
+
+create table engine (id serial primary key, name varchar(20));
+create table body (id serial primary key, name varchar(20));
+create table gear (id serial primary key, name varchar(20));
+
 create table car (id serial primary key, 
 				  name varchar(20), 
 				  body_id int references body (id),
 				  engine_id int references engine (id),
 				  gear_id int references gear (id));
-create table engine (id serial primary key, name varchar(20));
-create table body (id serial primary key, name varchar(20));
-create table gear (id serial primary key, name varchar(20));
 
 insert into body (name) values ('body1');
 insert into body (name) values ('body2');
@@ -37,14 +39,14 @@ join body b on c.body_id = b.id
 join engine e on e.id = c.engine_id
 join gear g on g.id = c.gear_id;
 
-select b.name Кузов, c.name Авто from body b
+select b.name Кузов_не_используется from body b
 left join car c on c.body_id = b.id
 where c.name is null;
 
-select e.name Движок, c.name Авто from engine e
+select e.name Движок_не_используется from engine e
 left join car c on c.engine_id = e.id
 where c.name is null;
 
-select g.name Коробка, c.name Авто from gear g
+select g.name Коробка_не_используется from gear g
 left join car c on c.gear_id = g.id
 where c.name is null;
