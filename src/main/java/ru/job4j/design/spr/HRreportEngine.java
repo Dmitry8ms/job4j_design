@@ -7,18 +7,17 @@ import java.util.function.Predicate;
 
 public class HRreportEngine implements Report<String> {
 
-    Store store;
-    Comparator<Employee> comparator;
-    public HRreportEngine(Store store, Comparator<Employee> comparator) {
+    private Store store;
+
+    public HRreportEngine(Store store) {
         this.store = store;
-        this.comparator = comparator;
     }
 
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
         List<Employee> list = store.findBy(filter);
-        Collections.sort(list, comparator);
+        Collections.sort(list, Comparator.comparing(Employee::getSalary).reversed());
         text.append("Name; Hired; Fired; Salary;").append(System.lineSeparator());
         for (Employee employee : list) {
             text.append(employee.getName()).append(";")

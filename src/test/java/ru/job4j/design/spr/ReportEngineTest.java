@@ -32,17 +32,32 @@ public class ReportEngineTest {
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        Report<HTMLreport> htmlEngine = new HTMLreportEngine(store);
-        StringBuilder content = new StringBuilder()
-                .append("Name; Hired; Fired; Salary;")
+        Report<String> htmlEngine = new HTMLreportEngine(store);
+        StringBuilder expect = new StringBuilder()
+                .append("<!DOCTYPE HTML>")
                 .append(System.lineSeparator())
-                .append(worker.getName()).append(";")
-                .append(worker.getHired()).append(";")
-                .append(worker.getFired()).append(";")
-                .append(worker.getSalary()).append(";")
-                .append(System.lineSeparator());
-        HTMLreport expect = new HTMLreport(content.toString());
-        assertThat(htmlEngine.generate(em -> true), is(expect));
+                .append("<html>").append(System.lineSeparator())
+                .append("<head>").append(System.lineSeparator())
+                .append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">")
+                .append(System.lineSeparator())
+                .append("<title>Report</title>").append(System.lineSeparator())
+                .append("</head>").append(System.lineSeparator())
+                .append("<body>").append(System.lineSeparator())
+                .append("<table>").append(System.lineSeparator())
+                .append("<tr>").append(System.lineSeparator())
+                .append("<th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th>")
+                .append(System.lineSeparator())
+                .append("</tr>").append(System.lineSeparator())
+                .append("<tr>").append(System.lineSeparator())
+                .append("<td>").append(worker.getName()).append("</td>")
+                .append("<td>").append(worker.getHired()).append("</td>")
+                .append("<td>").append(worker.getFired()).append("</td>")
+                .append("<td>").append(worker.getSalary()).append("</td>")
+                .append("</tr>").append(System.lineSeparator())
+                .append("</table>").append(System.lineSeparator())
+                .append("</body>").append(System.lineSeparator())
+                .append("</html>").append(System.lineSeparator());
+        assertThat(htmlEngine.generate(em -> true), is(expect.toString()));
     }
 
     @Test
@@ -52,7 +67,7 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         Report<String> accountingReport = new AccountingReportEngine(store);
-        String salaryFormated = String.format("%.2f", worker.getSalary());
+        String salaryFormated = String.format("%.2f", worker.getSalary() / 83.4) + "USD";
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -74,8 +89,7 @@ public class ReportEngineTest {
         store.add(worker1);
         store.add(worker2);
         store.add(worker3);
-        Report<String> hRreport = new HRreportEngine(store,
-                (e1, e2) -> (int) (e2.getSalary() - e1.getSalary()));
+        Report<String> hRreport = new HRreportEngine(store);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())

@@ -15,7 +15,7 @@ public class AccountingReportEngine implements Report<String> {
         StringBuilder text = new StringBuilder();
         text.append("Name; Hired; Fired; Salary;").append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
-            String salaryFormated = String.format("%.2f", employee.getSalary());
+            String salaryFormated = String.format("%.2f", employee.getSalary() / 83.4) + "USD";
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
                     .append(employee.getFired()).append(";")
