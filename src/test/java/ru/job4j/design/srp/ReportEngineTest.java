@@ -1,10 +1,9 @@
-package ru.job4j.design.spr;
+package ru.job4j.design.srp;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 import java.util.Calendar;
-import java.util.Collections;
 
 public class ReportEngineTest {
 
@@ -67,7 +66,8 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         Report<String> accountingReport = new AccountingReportEngine(store);
-        String salaryFormated = String.format("%.2f", worker.getSalary() / 83.4) + "USD";
+        String salaryFormated = String.format("%.2f",
+                worker.getSalary() / AccountingReportEngine.RATE) + "USD";
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())

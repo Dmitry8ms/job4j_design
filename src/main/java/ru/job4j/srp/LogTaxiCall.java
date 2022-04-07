@@ -1,4 +1,4 @@
-package ru.job4j.spr;
+package ru.job4j.srp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
