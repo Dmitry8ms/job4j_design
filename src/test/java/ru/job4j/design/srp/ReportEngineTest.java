@@ -3,6 +3,7 @@ package ru.job4j.design.srp;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 import org.junit.Test;
+
 import java.util.Calendar;
 
 public class ReportEngineTest {
@@ -103,5 +104,58 @@ public class ReportEngineTest {
                 .append(worker3.getSalary()).append(";")
                 .append(System.lineSeparator());
         assertThat(hRreport.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenGeneratedForJSON() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        var jsonReport = new JSONreportEngine(store);
+        StringBuilder expect = new StringBuilder()
+                .append("[{\"name\":\"").append(worker.getName())
+                .append("\",\"hired\":{\"year\":").append(worker.getHired().get(Calendar.YEAR))
+                .append(",\"month\":").append(worker.getHired().get(Calendar.MONTH))
+                .append(",\"dayOfMonth\":").append(worker.getHired().get(Calendar.DAY_OF_MONTH))
+                .append(",\"hourOfDay\":").append(worker.getHired().get(Calendar.HOUR_OF_DAY))
+                .append(",\"minute\":").append(worker.getHired().get(Calendar.MINUTE))
+                .append(",\"second\":").append(worker.getHired().get(Calendar.SECOND))
+                .append("},\"fired\":{\"year\":").append(worker.getFired().get(Calendar.YEAR))
+                .append(",\"month\":").append(worker.getFired().get(Calendar.MONTH))
+                .append(",\"dayOfMonth\":").append(worker.getFired().get(Calendar.DAY_OF_MONTH))
+                .append(",\"hourOfDay\":").append(worker.getFired().get(Calendar.HOUR_OF_DAY))
+                .append(",\"minute\":").append(worker.getFired().get(Calendar.MINUTE))
+                .append(",\"second\":").append(worker.getFired().get(Calendar.SECOND))
+                .append("},\"salary\":").append(worker.getSalary()).append("}]");
+        assertThat(jsonReport.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void whenGeneratedForXML() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        var xmlReport = new XMLreportEngine(store);
+        StringBuilder expect = new StringBuilder()
+                .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")
+                .append("\n")
+                .append("<report>").append("\n")
+                .append("    ").append("<employees>").append("\n")
+                .append("        ").append("<fired>")
+                .append(ToISOdate.convert(worker.getFired())).append("</fired>")
+                .append("\n")
+                .append("        ").append("<hired>").append(ToISOdate.convert(worker.getHired()))
+                .append("</hired>")
+                .append("\n")
+                .append("        ").append("<name>").append(worker.getName()).append("</name>")
+                .append("\n")
+                .append("        ").append("<salary>").append(worker.getSalary()).append(
+                        "</salary>")
+                .append("\n")
+                .append("    ").append("</employees>").append("\n")
+                .append("</report>").append("\n");
+        assertThat(xmlReport.generate(em -> true), is(expect.toString()));
     }
 }
