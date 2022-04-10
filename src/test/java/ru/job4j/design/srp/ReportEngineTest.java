@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class ReportEngineTest {
 
@@ -134,7 +135,7 @@ public class ReportEngineTest {
     @Test
     public void whenGeneratedForXML() {
         MemStore store = new MemStore();
-        Calendar now = Calendar.getInstance();
+        Calendar now = Calendar.getInstance(Locale.US);
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         var xmlReport = new XMLreportEngine(store);
