@@ -11,7 +11,7 @@ import java.util.Locale;
 public class ToISOdate {
 
     public static String convert(Calendar calendar) {
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz", Locale.US)
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US)
                 .format(calendar.getTime()).replace("GMT", "");
     }
 }
