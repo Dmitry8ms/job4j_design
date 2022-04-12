@@ -135,7 +135,7 @@ public class ReportEngineTest {
     @Test
     public void whenGeneratedForXML() {
         MemStore store = new MemStore();
-        Calendar now = Calendar.getInstance(Locale.US);
+        Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         var xmlReport = new XMLreportEngine(store);
