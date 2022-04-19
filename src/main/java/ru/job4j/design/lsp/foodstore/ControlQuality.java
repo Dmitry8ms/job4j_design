@@ -4,16 +4,20 @@ import java.util.Calendar;
 import java.util.List;
 
 public class ControlQuality {
-
-    public Storage<Food> distributeFood(List<Storage<Food>> storageList, Food food) {
-        Storage<Food> storage = new Trash();
+    private List<Storage<Food>> storageList;
+    public ControlQuality(List<Storage<Food>> storageList) {
+        this.storageList = storageList;
+    }
+    public void distributeFood(Food food) {
         for (Storage<Food> store : storageList) {
             if (store.accept(food)) {
                 store.addToStorage(food);
-                storage = store;
             }
         }
-        return storage;
+    }
+
+    public List<Storage<Food>> getStorageList() {
+        return storageList;
     }
 
     public static void main(String[] args) {
@@ -28,8 +32,8 @@ public class ControlQuality {
         cheese.setDiscount(30);
         cheese.setCreateDate(startDate);
         cheese.setExpireDate(finishDate);
-        var distribute = new ControlQuality();
-        Storage<Food> storage = distribute.distributeFood(storageList, cheese);
-        System.out.println(storage.getClass().getSimpleName().toString() + storage.inventory());
+        var distribute = new ControlQuality(storageList);
+        distribute.distributeFood(cheese);
+        System.out.println(distribute.getStorageList());
     }
 }

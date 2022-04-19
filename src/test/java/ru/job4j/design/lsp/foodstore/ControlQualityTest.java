@@ -25,9 +25,9 @@ public class ControlQualityTest {
         cheese.setPrice(1000.0);
         cheese.setCreateDate(startDate);
         cheese.setExpireDate(finishDate);
-        var distribute = new ControlQuality();
-        Storage<Food> storage = distribute.distributeFood(storageList, cheese);
-        assertEquals(storage.getClass(), Warehouse.class);
+        var distribute = new ControlQuality(storageList);
+        distribute.distributeFood(cheese);
+        assertEquals(distribute.getStorageList().get(0).inventory().get(0), cheese);
     }
 
     @Test
@@ -43,9 +43,9 @@ public class ControlQualityTest {
         cheese.setDiscount(30);
         cheese.setCreateDate(startDate);
         cheese.setExpireDate(finishDate);
-        var distribute = new ControlQuality();
-        Storage<Food> storage = distribute.distributeFood(storageList, cheese);
-        assertEquals(storage.getClass(), Shop.class);
+        var distribute = new ControlQuality(storageList);
+        distribute.distributeFood(cheese);
+        assertEquals(distribute.getStorageList().get(1).inventory().get(0), cheese);
     }
 
     @Test
@@ -61,9 +61,9 @@ public class ControlQualityTest {
         cheese.setDiscount(30);
         cheese.setCreateDate(startDate);
         cheese.setExpireDate(finishDate);
-        var distribute = new ControlQuality();
-        Storage<Food> storage = distribute.distributeFood(storageList, cheese);
-        List<Food> shopList = storage.inventory();
+        var distribute = new ControlQuality(storageList);
+        distribute.distributeFood(cheese);
+        List<Food> shopList = distribute.getStorageList().get(1).inventory();
         assertThat(shopList.get(0).getPrice(), is(700.0));
     }
 
@@ -79,9 +79,9 @@ public class ControlQualityTest {
         cheese.setPrice(1000.0);
         cheese.setCreateDate(startDate);
         cheese.setExpireDate(finishDate);
-        var distribute = new ControlQuality();
-        Storage<Food> storage = distribute.distributeFood(storageList, cheese);
-        assertEquals(storage.getClass(), Trash.class);
+        var distribute = new ControlQuality(storageList);
+        distribute.distributeFood(cheese);
+        assertEquals(distribute.getStorageList().get(2).inventory().get(0), cheese);
     }
 
     @Test
@@ -116,11 +116,13 @@ public class ControlQualityTest {
         chocolate.setPrice(800.0);
         chocolate.setCreateDate(startDate);
         chocolate.setExpireDate(finishDate);
-        var distribute = new ControlQuality();
-        Storage<Food> warehouse = distribute.distributeFood(storageList, cheese);
-        Storage<Food> shop = distribute.distributeFood(storageList, sausage);
-        Storage<Food> trash = distribute.distributeFood(storageList, chocolate);
-        assertArrayEquals(new int[] {1, 1, 1}, new int[] {warehouse.inventory().size(),
-        shop.inventory().size(), trash.inventory().size()});
+        var distribute = new ControlQuality(storageList);
+        distribute.distributeFood(cheese);
+        distribute.distributeFood(sausage);
+        distribute.distributeFood(chocolate);
+        assertArrayEquals(new int[] {1, 1, 1},
+                new int[] {distribute.getStorageList().get(0).inventory().size(),
+                        distribute.getStorageList().get(1).inventory().size(),
+                        distribute.getStorageList().get(2).inventory().size()});
     }
 }
