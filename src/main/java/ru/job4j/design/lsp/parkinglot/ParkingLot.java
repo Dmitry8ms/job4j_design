@@ -13,6 +13,28 @@ public class ParkingLot implements Parking {
     }
     @Override
     public boolean givePlace(Vehicle vehicle) {
-        return true;
+        int vehicleSize = vehicle.getSize();
+        if (vehicleSize == Car.SIZE && cars - Car.SIZE >= 0) {
+            cars -= Car.SIZE;
+            vehicles.add(vehicle);
+            return true;
+        } else if (vehicleSize > Car.SIZE && trucks > 0) {
+            trucks -= 1;
+            vehicles.add(vehicle);
+            return true;
+        } else if (vehicleSize > Car.SIZE && cars - vehicleSize >= 0) {
+            cars -= vehicleSize;
+            vehicles.add(vehicle);
+            return true;
+        }
+        return false;
+    }
+
+    public int getCars() {
+        return cars;
+    }
+
+    public int getTrucks() {
+        return trucks;
     }
 }

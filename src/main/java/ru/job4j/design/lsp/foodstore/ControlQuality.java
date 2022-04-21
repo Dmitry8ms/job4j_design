@@ -34,6 +34,6 @@ public class ControlQuality {
         cheese.setExpireDate(finishDate);
         var distribute = new ControlQuality(storageList);
         distribute.distributeFood(cheese);
-        System.out.println(distribute.getStorageList());
+        System.out.println(distribute.getStorageList().get(0).inventory().get(0));
     }
 }

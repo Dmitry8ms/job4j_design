@@ -18,7 +18,7 @@ public class ControlQualityTest {
         Calendar startDate = Calendar.getInstance();
         startDate.set(2022, Calendar.JANUARY, 10);
         Calendar finishDate = Calendar.getInstance();
-        finishDate.set(2023, Calendar.FEBRUARY, 15);
+        finishDate.set(2023, Calendar.DECEMBER, 15);
         var cheese = new Food();
         cheese.setName("Cheese");
         cheese.setDiscount(30);
@@ -45,6 +45,7 @@ public class ControlQualityTest {
         cheese.setExpireDate(finishDate);
         var distribute = new ControlQuality(storageList);
         distribute.distributeFood(cheese);
+        System.out.println(distribute.getStorageList().get(1).inventory());
         assertEquals(distribute.getStorageList().get(1).inventory().get(0), cheese);
     }
 
@@ -90,7 +91,7 @@ public class ControlQualityTest {
         Calendar startDate = Calendar.getInstance();
         startDate.set(2022, Calendar.JANUARY, 10);
         Calendar finishDate = Calendar.getInstance();
-        finishDate.set(2023, Calendar.FEBRUARY, 15);
+        finishDate.set(2023, Calendar.DECEMBER, 15);
         var cheese = new Food();
         cheese.setName("Cheese");
         cheese.setDiscount(30);

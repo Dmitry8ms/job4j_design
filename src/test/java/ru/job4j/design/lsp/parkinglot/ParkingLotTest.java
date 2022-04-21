@@ -27,7 +27,6 @@ public class ParkingLotTest {
         assertTrue(park.givePlace(truck2));
     }
 
-    @Ignore
     @Test
     public void testGivePlaceLogic() {
         var park = new ParkingLot(4, 2);
@@ -44,7 +43,6 @@ public class ParkingLotTest {
         assertFalse(park.givePlace(car1));
     }
 
-    @Ignore
     @Test
     public void falseWhenGiveTruckPlaceToCar() {
         var park = new ParkingLot(0, 1);
