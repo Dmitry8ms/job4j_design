@@ -6,28 +6,30 @@ import java.util.List;
 public class ParkingLot implements Parking {
     private int cars;
     private int trucks;
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private List<Vehicle> vehicles;
     public ParkingLot(int cars, int trucks) {
         this.cars = cars;
         this.trucks = trucks;
+        vehicles = new ArrayList<>(cars + trucks);
     }
     @Override
     public boolean givePlace(Vehicle vehicle) {
+        boolean result = false;
         int vehicleSize = vehicle.getSize();
-        if (vehicleSize == Car.SIZE && cars - Car.SIZE >= 0) {
+        if (vehicleSize == Car.SIZE && cars >= Car.SIZE) {
             cars -= Car.SIZE;
             vehicles.add(vehicle);
-            return true;
+            result = true;
         } else if (vehicleSize > Car.SIZE && trucks > 0) {
             trucks -= 1;
             vehicles.add(vehicle);
-            return true;
-        } else if (vehicleSize > Car.SIZE && cars - vehicleSize >= 0) {
+            result = true;
+        } else if (vehicleSize > Car.SIZE && cars >= vehicleSize) {
             cars -= vehicleSize;
             vehicles.add(vehicle);
-            return true;
+            result = true;
         }
-        return false;
+        return result;
     }
 
     public int getCars() {
