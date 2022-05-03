@@ -28,10 +28,11 @@ public class SimpleMenu implements Menu {
 
     private boolean addChild(String parentName, String childName, ActionDelegate actionDelegate) {
         boolean result = false;
-        if (findItem(parentName).isEmpty()) {
+        var parent = findItem(parentName);
+        if (parent.isEmpty()) {
             throw new IllegalArgumentException("Wrong parent menu item");
         }
-        MenuItem parentMenuItem = findItem(parentName).get().getMenuItem();
+        MenuItem parentMenuItem = parent.get().getMenuItem();
         List<MenuItem> childrenList = parentMenuItem.getChildren();
         if (findItem(childName).isEmpty()) {
             childrenList.add(new SimpleMenuItem(childName, actionDelegate));
@@ -42,13 +43,8 @@ public class SimpleMenu implements Menu {
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        Optional<MenuItemInfo> optMenuItemInfo = Optional.empty();
         Optional<ItemInfo> optMenuItem = findItem(itemName);
-        if (optMenuItem.isPresent()) {
-            ItemInfo ii = optMenuItem.get();
-            optMenuItemInfo = Optional.of(new MenuItemInfo(ii.getMenuItem(), ii.getNumber()));
-        }
-        return optMenuItemInfo;
+        return optMenuItem.map(ii -> new MenuItemInfo(ii.getMenuItem(), ii.getNumber()));
     }
 
     @Override
@@ -70,13 +66,17 @@ public class SimpleMenu implements Menu {
 
     private Optional<ItemInfo> findItem(String name) {
         var dfs = new DFSIterator();
+        int flag = 0;
         Optional<ItemInfo> result = Optional.empty();
         while (dfs.hasNext()) {
             ItemInfo ii = dfs.next();
             if (ii.getMenuItem().getName().equals(name)) {
                 result = Optional.of(ii);
-                break;
+                flag++;
             }
+        }
+        if (flag > 1) {
+            throw new IllegalArgumentException("There is double in menu items with such name");
         }
         return result;
     }
