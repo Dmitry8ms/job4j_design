@@ -53,10 +53,10 @@ public class SimpleMenuTest {
         assertSame(Optional.empty(), menu.select("Покормить собаку"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void whenAddWrongParentItem() {
         Menu menu = new SimpleMenu();
-        menu.add("Сходить в магазин", "Сходить в магазин", STUB_ACTION);
+        assertFalse(menu.add("Сходить в магазин", "Сходить в магазин", STUB_ACTION));
     }
 
     @Test

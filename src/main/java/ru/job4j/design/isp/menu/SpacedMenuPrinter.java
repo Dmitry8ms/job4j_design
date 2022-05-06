@@ -8,12 +8,7 @@ public class SpacedMenuPrinter implements MenuPrinter {
     }
 
     private String space(String number) {
-        StringBuilder tabs = new StringBuilder();
-        for (char ch : number.toCharArray()) {
-            if (ch == '.') {
-                tabs.append('\t');
-            }
-        }
-        return tabs.deleteCharAt(0).toString();
+        String[] chuncks = number.split("\\.");
+        return "\t".repeat(chuncks.length - 1);
     }
 }

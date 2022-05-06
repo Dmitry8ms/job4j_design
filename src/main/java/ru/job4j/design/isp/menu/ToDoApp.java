@@ -1,6 +1,5 @@
 package ru.job4j.design.isp.menu;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

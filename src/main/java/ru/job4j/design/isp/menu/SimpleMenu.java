@@ -30,7 +30,7 @@ public class SimpleMenu implements Menu {
         boolean result = false;
         var parent = findItem(parentName);
         if (parent.isEmpty()) {
-            throw new IllegalArgumentException("Wrong parent menu item");
+            return false;
         }
         MenuItem parentMenuItem = parent.get().getMenuItem();
         List<MenuItem> childrenList = parentMenuItem.getChildren();
