@@ -126,4 +126,30 @@ public class ControlQualityTest {
                         distribute.getStorageList().get(1).inventory().size(),
                         distribute.getStorageList().get(2).inventory().size()});
     }
+
+    @Test
+    public void warehouseFirstShopAfterResort() {
+        List<Storage<Food>> storageList = List.of(new Warehouse(), new Shop(), new Trash());
+        Calendar startDate = Calendar.getInstance();
+        startDate.roll(Calendar.YEAR, -1);
+        Calendar finishDate = Calendar.getInstance();
+        finishDate.roll(Calendar.YEAR, 5);
+        var cheese = new Food();
+        cheese.setName("Cheese");
+        cheese.setDiscount(30);
+        cheese.setPrice(1000.0);
+        cheese.setCreateDate(startDate);
+        cheese.setExpireDate(finishDate);
+        var distribute = new ControlQuality(storageList);
+        distribute.distributeFood(cheese);
+        assertEquals(distribute.getStorageList().get(0).inventory().get(0), cheese);
+        startDate = Calendar.getInstance();
+        startDate.roll(Calendar.YEAR, -3);
+        finishDate = Calendar.getInstance();
+        finishDate.roll(Calendar.YEAR, 3);
+        cheese.setCreateDate(startDate);
+        cheese.setExpireDate(finishDate);
+        distribute.resort();
+        assertEquals(distribute.getStorageList().get(1).inventory().get(0), cheese);
+    }
 }

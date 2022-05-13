@@ -32,4 +32,8 @@ public class Shop implements Storage<Food> {
         return percent >= 25 && percent < 100;
     }
 
+    @Override
+    public void clear() {
+        storageList.clear();
+    }
 }

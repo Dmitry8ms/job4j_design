@@ -27,4 +27,9 @@ public class Trash implements Storage<Food> {
         int percent = percent(item);
         return percent >= 100;
     }
+
+    @Override
+    public void clear() {
+        storageList.clear();
+    }
 }

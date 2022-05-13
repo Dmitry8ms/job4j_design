@@ -26,4 +26,9 @@ public class Warehouse implements Storage<Food> {
         int percent = percent(item);
         return percent > 0 && percent < 25;
     }
+
+    @Override
+    public void clear() {
+        storageList.clear();
+    }
 }

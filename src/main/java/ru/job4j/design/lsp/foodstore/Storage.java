@@ -13,4 +13,5 @@ public interface Storage<T> {
         long now = Calendar.getInstance().getTimeInMillis();
         return (int) (((double) (now - start) / (double) (finish - start)) * 100);
     }
+    void clear();
 }
